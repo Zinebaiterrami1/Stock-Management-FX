@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="961.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.Controllero">
+   <bottom>
+      <AnchorPane prefHeight="616.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="14.0" layoutY="50.0" prefHeight="549.0" prefWidth="278.0" style="-fx-border-color: #334db3; -fx-border-width: 2;">
+               <children>
+                  <Separator layoutX="21.0" layoutY="75.0" prefHeight="5.0" prefWidth="238.0" />
+                  <Text fill="#1f2ce1" layoutX="27.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" />
+                  <Text fill="#1f2ce1" layoutX="17.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brand :" />
+                  <Text fill="#1f2ce1" layoutX="21.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ram :" />
+                  <Text fill="#1f2ce1" layoutX="20.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rom :" />
+                  <Text fill="#1f2ce1" layoutX="11.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carte graphique :" />
+                  <Text fill="#1f2ce1" layoutX="6.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantite  :" />
+                  <Text fill="#1f2ce1" layoutX="14.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix :" />
+                  <TextField fx:id="nomTextField" layoutX="63.0" layoutY="95.0" prefHeight="26.0" prefWidth="181.0" />
+                  <TextField fx:id="brandTextField" layoutX="63.0" layoutY="168.0" prefHeight="26.0" prefWidth="181.0" />
+                  <TextField fx:id="ramTextField" layoutX="63.0" layoutY="231.0" prefHeight="26.0" prefWidth="181.0" />
+                  <TextField fx:id="romTextField" layoutX="63.0" layoutY="287.0" prefHeight="26.0" prefWidth="181.0" />
+                  <TextField fx:id="graphicTextField" layoutX="64.0" layoutY="373.0" prefHeight="26.0" prefWidth="181.0" />
+                  <TextField fx:id="prixTextField" layoutX="64.0" layoutY="466.0" prefHeight="26.0" prefWidth="181.0" />
+                  <TextField fx:id="numseriTextField" layoutX="68.0" layoutY="420.0" prefHeight="26.0" prefWidth="181.0" />
+                  <Button fx:id="insertobtn" layoutX="13.0" layoutY="525.0" mnemonicParsing="false" onAction="#insertRecord" style="-fx-background-color: #334db3;" text="Insert" textFill="#f7efef" />
+                  <Button fx:id="updateobtn" layoutX="97.0" layoutY="525.0" mnemonicParsing="false" onAction="#updateRecord" style="-fx-background-color: #334db3;" text="Update" textFill="#f7f1f1" />
+                  <Button fx:id="deleteobtn" layoutX="188.0" layoutY="525.0" mnemonicParsing="false" onAction="#deleteRecord" style="-fx-background-color: #334db3;" text="Delete" textFill="#efecec" />
+                  <Text fill="#1f2ce1" layoutX="27.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" />
+                  <TextField fx:id="idoTextField" layoutX="68.0" layoutY="38.0" prefHeight="26.0" prefWidth="181.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="311.0" layoutY="48.0" prefHeight="550.0" prefWidth="630.0" style="-fx-border-color: #334db3; -fx-border-width: 2;">
+               <children>
+                  <TableView fx:id="tableo" layoutX="14.0" layoutY="14.0" prefHeight="499.0" prefWidth="601.0">
+                    <columns>
+                      <TableColumn fx:id="clido" prefWidth="50.4000244140625" text="ID" />
+                      <TableColumn fx:id="clnom" prefWidth="92.0" text="Nom" />
+                        <TableColumn fx:id="clbrand" prefWidth="70.4000244140625" text="Brand" />
+                        <TableColumn fx:id="clram" prefWidth="73.5999755859375" text="Ram" />
+                        <TableColumn fx:id="clrom" prefWidth="68.0" text="Rom" />
+                        <TableColumn fx:id="clgraphic" prefWidth="97.60003662109375" text="Carte graphique" />
+                        <TableColumn fx:id="clserie" prefWidth="75.0" text="Quantite" />
+                        <TableColumn fx:id="clprix" prefWidth="75.0" text="Prix" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <Text fill="#1f2ce1" layoutX="403.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDINATEURS ">
+               <font>
+                  <Font name="Verdana Bold" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>

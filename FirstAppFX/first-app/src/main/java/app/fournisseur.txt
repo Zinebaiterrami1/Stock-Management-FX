@@ -1,0 +1,213 @@
+package app;
+
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+public class Controllerf {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button deletefbtn;
+
+    @FXML
+    private TextField idfTextField;
+
+    @FXML
+    private Button insertfbtn;
+
+    @FXML
+    private TextField nomfTextField;
+
+    @FXML
+    private TextField prenomTextField;
+
+    @FXML
+    private TextField teleTextField;
+
+    @FXML
+    private Button updatefbtn;
+
+    @FXML
+    private TableView<Person> tableView;
+
+    @FXML
+    private TableColumn<Person, Integer> idColumn;
+
+    @FXML
+    private TableColumn<Person, String> nomColumn;
+
+    @FXML
+    private TableColumn<Person, String> prenomColumn;
+
+    @FXML
+    private TableColumn<Person, String> telephoneColumn;
+
+
+    /**
+     * 
+     */
+    @FXML
+    void initialize() {
+        assert deletefbtn != null : "fx:id=\"deletefbtn\" was not injected: check your FXML file 'pageF.fxml'.";
+        assert idfTextField != null : "fx:id=\"idfTextField\" was not injected: check your FXML file 'pageF.fxml'.";
+        assert insertfbtn != null : "fx:id=\"insertfbtn\" was not injected: check your FXML file 'pageF.fxml'.";
+        assert nomfTextField != null : "fx:id=\"nomfTextField\" was not injected: check your FXML file 'pageF.fxml'.";
+        assert prenomTextField != null : "fx:id=\"prenomTextField\" was not injected: check your FXML file 'pageF.fxml'.";
+        assert teleTextField != null : "fx:id=\"teleTextField\" was not injected: check your FXML file 'pageF.fxml'.";
+        assert updatefbtn != null : "fx:id=\"updatefbtn\" was not injected: check your FXML file 'pageF.fxml'.";
+
+
+ 
+        loadFromDatabase();
+        // Ajoutez d'autres configurations ou chargez les données depuis la base de données
+        // Par exemple, tableView.setItems(listeDeDonnees);
+
+    }
+
+    private void loadFromDatabase() {
+        // Code pour se connecter à la base de données, exécuter la requête et récupérer les données
+           DatabaseConnection connectNow = new DatabaseConnection();
+                try (Connection connectDB = connectNow.getConnection()) {
+            String query = "SELECT id, nom, prenom, telephone FROM votre_table";
+            try (PreparedStatement preparedStatement = connectDB.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    ObservableList<Person> data = FXCollections.observableArrayList();
+
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        String nom = resultSet.getString("nom");
+                        String prenom = resultSet.getString("prenom");
+                        String telephone = resultSet.getString("telephone");
+
+                        data.add(new Person(id, nom, prenom, telephone));
+                    }
+
+                    // Définir les données dans la TableView
+                    tableView.setItems(data);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer l'exception selon vos besoins
+        }
+    }
+
+   
+
+        // ...
+    
+        @FXML
+        void insertRecord() {
+            try {
+                DatabaseConnection connectNow = new DatabaseConnection();
+                try (Connection connectDB = connectNow.getConnection()) {
+                    String sql = "INSERT INTO fournisseur (idf, nomf, prenomf, tele) VALUES (?, ?, ?, ?)";
+
+                    try (PreparedStatement statement = connectDB.prepareStatement(sql)) {
+                        statement.setInt(1, Integer.parseInt(idfTextField.getText()));  // Remplacez cela par la valeur que vous souhaitez pour idf
+                        statement.setString(2, nomfTextField.getText());
+                        statement.setString(3, prenomTextField.getText());
+                        statement.setString(4, teleTextField.getText());
+            
+                        statement.executeUpdate();
+                    }
+                }
+                selectRecords();  // Actualiser l'affichage après l'insertion
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Gérer les erreurs liées à la base de données
+            }
+        }
+    
+        @FXML
+        void updateRecord() {
+            try {
+                DatabaseConnection connectNow = new DatabaseConnection();
+                try (Connection connectDB = connectNow.getConnection()) {
+                    String sql = "UPDATE fournisseur SET nomf=?, prenomf=?, tele=? WHERE idf=?";
+                    try (PreparedStatement statement = connectDB.prepareStatement(sql)) {
+                        statement.setString(1, nomfTextField.getText());
+                        statement.setString(2, prenomTextField.getText());
+                        statement.setString(3, teleTextField.getText());
+                        statement.setInt(4, Integer.parseInt(idfTextField.getText()));
+    
+                        statement.executeUpdate();
+                    }
+                }
+                selectRecords();  // Actualiser l'affichage après la mise à jour
+            } catch (SQLException | NumberFormatException e) {
+                e.printStackTrace();
+                // Gérer les erreurs liées à la base de données ou à la conversion de nombre
+            }
+        }
+    
+        @FXML
+        void deleteRecord() {
+            try {
+                DatabaseConnection connectNow = new DatabaseConnection();
+                try (Connection connectDB = connectNow.getConnection()) {
+                    String sql = "DELETE FROM fournisseur WHERE idf=?";
+                    try (PreparedStatement statement = connectDB.prepareStatement(sql)) {
+                        statement.setInt(1, Integer.parseInt(idfTextField.getText()));
+    
+                        statement.executeUpdate();
+                    }
+                }
+                selectRecords();  // Actualiser l'affichage après la suppression
+            } catch (SQLException | NumberFormatException e) {
+                e.printStackTrace();
+                // Gérer les erreurs liées à la base de données ou à la conversion de nombre
+            }
+        }
+    
+        @FXML
+        void selectRecords() {
+            try {
+                DatabaseConnection connectNow = new DatabaseConnection();
+                try (Connection connectDB = connectNow.getConnection()) {
+                    String sql = "SELECT * FROM fournisseur";
+                    try (PreparedStatement statement = connectDB.prepareStatement(sql)) {
+                        try (ResultSet resultSet = statement.executeQuery()) {
+                            while (resultSet.next()) {
+                                // Traitement des résultats
+                                int idf = resultSet.getInt("idf");
+                                String nomf = resultSet.getString("nomf");
+                                String prenomf = resultSet.getString("prenomf");
+                                String tele = resultSet.getString("tele");
+    
+                                // Faites quelque chose avec les résultats (par exemple, afficher dans l'interface utilisateur)
+                            }
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Gérer les erreurs liées à la base de données
+            }
+        }
+    
+        // ...
+    }
+    
+
+
